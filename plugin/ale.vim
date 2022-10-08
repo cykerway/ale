@@ -212,6 +212,7 @@ command! -bar ALELast :call ale#loclist_jumping#JumpToIndex(-1)
 
 " A command for showing error details.
 command! -bar ALEDetail :call ale#cursor#ShowCursorDetail()
+command! -bar ALECurrentDetail :call ale#util#ShowDetailForCurItem()
 
 " Define commands for turning ALE on or off.
 command! -bar ALEToggle :call ale#toggle#Toggle()

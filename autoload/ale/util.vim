@@ -492,6 +492,25 @@ function! ale#util#FindItemAtCursor(buffer) abort
     return [l:info, l:loc]
 endfunction
 
+function! ale#util#ShowDetailForCurItem() abort
+    let l:buffer = bufnr()
+    let l:index = getloclist(0, {'idx': 0}).idx - 1
+    let l:info = get(g:ale_buffer_info, l:buffer, {})
+    let l:loclist = get(l:info, 'loclist', [])
+    let l:loc = l:loclist[l:index]
+    let l:message = get(l:loc, 'detail', l:loc.text)
+    let l:lines = split(l:message, "\n")
+
+    if g:ale_floating_preview || g:ale_detail_to_floating_preview
+        call ale#floating_preview#Show(l:lines)
+    else
+        call ale#preview#Show(l:lines, {'stay_here': 0})
+        if !l:stay_here
+            echo
+        endif
+    endif
+endfunction
+
 function! ale#util#Input(message, value, ...) abort
     if a:0 > 0
         return input(a:message, a:value, a:1)
